@@ -1,0 +1,17 @@
+{
+  "name": "apisupport_hosted_fields",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "braintree": "^2.21.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0"
+  }
+}
