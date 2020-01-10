@@ -2,6 +2,7 @@ const express = require('express')
 const braintree = require("braintree")
 const path = require('path')
 const exphbs = require('express-handlebars')
+const gateway = require('./btCredentials.js')
 
 
 const PORT = process.env.PORT || 3000
@@ -16,6 +17,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.listen(PORT, () => console.log(`App is up and running listening on port ${PORT}`))
 
-app.get('/', function (req, res) {
-   res.send('Hello World!')
- })
+/*app.get('/', (req, res) => {
+    res.render('configure')
+  })*/
+
+app.get('/', (req, res) => {
+  gateway.clientToken.generate({},(err, response) => {
+    res.render('checkout', {clientToken: response.clientToken})
+    })
+  })
