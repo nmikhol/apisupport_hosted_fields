@@ -1,0 +1,23 @@
+<h1>Transaction Complete</h1>
+
+<p>
+  <table class="table table">
+    <thead class= "thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Status</th>
+        <th scope="col">Customer Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">{{transactionResponse.transaction.id}}</th>
+        <td>{{transactionResponse.transaction.amount}}</td>
+        <td>{{transactionResponse.transaction.status}}</td>
+        <td>{{transactionResponse.transaction.customer.firstName}} {{transactionResponse.transaction.customer.lastName}}</td>
+        <td> {{customerResponse.customer.id}}</td>
+      </tr>
+    </tbody>
+  </table>
+</p>

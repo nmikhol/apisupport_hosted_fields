@@ -1,19 +1,23 @@
 <h1>Create Transaction</h1>
 
     <form action="/transaction" method="post" id="cc-form" >
+      <div class="form-group w-25">
+        <label class="control-label" for="Amount">Amount</label>
+        <input name="amount" class="form-control" id="amount" placeholder="Amount" required>
+      </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="control-label" for="Amount">Amount</label>
-          <input name="amount" class="form-control" id="amount" placeholder="Amount" required>
-        </div>
-        <div class="form-group ml-3">
           <label class="control-label" for="First Name">First Name</label>
           <input name="firstName" class="form-control" id="first-name" placeholder="First Name" required>
         </div>
         <div class="form-group ml-3">
           <label class="control-label" for="Last Name">Last Name</label>
           <input name="lastName" type="name" class="form-control" id="last-name" placeholder="Last Name" required>
+        </div>
+        <div class="form-group ml-3">
+          <label class="control-label" for="email">Email Address</label>
+          <input name="email" type="email" class="form-control" id="emai" placeholder="Email Address" required>
         </div>
       </div>
 
@@ -22,7 +26,7 @@
         <div class="form-control" id="cc-number" placeholder="4111 1111 1111 1111"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
+        <div class="form-group w-25">
           <label class="control-label" for="cvv">CVV</label>
           <div id="cvv" class="form-control" required></div>
         </div>
@@ -48,7 +52,7 @@
 <script src="https://js.braintreegateway.com/web/3.56.0/js/client.min.js"></script>
 <script src="https://js.braintreegateway.com/web/3.56.0/js/hosted-fields.min.js"></script>
 <script>
-  let clientToken = `{{clientToken}}`
+  let clientToken = '{{{clientToken}}}'
   let form = document.querySelector('#cc-form');
   let hiddenNonceInput = document.querySelector('#nonce');
   let submit = document.querySelector('input[type="submit"]');
@@ -104,7 +108,7 @@
              hiddenNonceInput.value = payload.nonce;
 
              console.log('Got a nonce: ' + payload.nonce);
-             //form.submit()
+             form.submit()
 
            });
          }, false);
