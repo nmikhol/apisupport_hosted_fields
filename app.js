@@ -18,6 +18,10 @@ app.use(session({secret: 'secret-key', resave: false, saveUninitialized: false})
 
 app.listen(PORT, () => console.log(`App is up and running listening on port ${PORT}`))
 
+app.get('/search', (req, res) =>{
+  res.render('search')
+})
+
 app.get('/', (req, res) => {
   if(!req.session.loadCount){
     req.session.loadCount = 1
@@ -54,6 +58,7 @@ app.post('/transaction', (req, res, next) => {
   }, function (error, result) { //If customer was created sucussfully, transaction is created
       if (result.success) {
         let customerResponse = result
+
         //###CREATE TRANSACTION ####
         gateway.transaction.sale({
           amount: amount,
@@ -65,33 +70,28 @@ app.post('/transaction', (req, res, next) => {
               if (result.success) {
                 res.render('results', {transactionResponse: result, customerResponse: customerResponse});
 
-              } else if ((result.success === false) && (result.errors == {})) {//if transaction is declined, redirects back to /checkout
-                console.log(`else if validation for txn: ${result.success}`)
-                req.session.loadCount = 0
-                app.locals.transactionStatus = result.transaction.status
-                res.redirect('/')
-
+              } else if (result.success === false && (result.errors = {})) {//if transaction is declined, redirects back to /checkout
+                  req.session.loadCount = 0
+                  app.locals.transactionStatus = result.transaction.status
+                  res.redirect('/')
               } else { //if transaction.sale fails, log errors
                   transactionErrorsArr = result.errors.deepErrors();
                   transactionErrors = transactionErrorsArr.map((transactionError) =>{
-                    console.log(`${transactionError.attribute}
-                        ${transactionError.code}
-                        ${transactionError.message}`)
-
+                  console.log(`${transactionError.attribute} ${transactionError.code} ${transactionError.message}`)
                   });
                   res.redirect('/')
-                }
-              });
-        } else if(result.success === false && (result.errors = {})) { //if veririfation is declined, redirects back to checkout
-          app.locals.verificationStatus = result.verification.status
-          req.session.loadCount = 0
-          res.redirect(`/`)
-          console.log(result.verification.status)
-
+              }
+          });
+        } else if(result.success === false && (result.errors = {})) { //if verification is declined, redirects back to checkout
+            app.locals.verificationStatus = result.verification.status
+            req.session.loadCount = 0
+            res.redirect(`/`)
         } else { //if customer.create() fails, displays errors
-          customerErrors = result.errors.deepErrors();
-          console.log(`customerErrors: ${customerErrors}`)
-          res.redirect('/')
-        }
-      });
+            customerErrorsArr = result.errors.deepErrors();
+            customerErrors = customerErrorsArr.map((customerError) =>{
+            console.log(`${customerError.attribute} ${customerError.code} ${customerError.message}`)
+            });
+            res.redirect('/')
+          }
     });
+  });
