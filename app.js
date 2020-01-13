@@ -19,8 +19,34 @@ app.use(session({secret: 'secret-key', resave: false, saveUninitialized: false})
 app.listen(PORT, () => console.log(`App is up and running listening on port ${PORT}`))
 
 app.get('/search', (req, res) =>{
-  res.render('search')
-})
+  let today = new Date();
+  let yesterday = new Date();
+  let txnCount = 0
+  let searchResults = []
+  yesterday.setDate(today.getDate() - 1);
+
+  gateway.transaction.search(function (search) {
+    search.createdAt().min(yesterday);
+
+  }, function (err, response) {
+    response.each(function (err, transaction) {
+    searchResults.push(transaction)
+    txnCount ++
+    //console.log(`searching`)
+    })
+  })
+
+  function checkSearch() {
+      setTimeout(function () {
+        console.log(searchResults)
+        res.render('search', {searchResults: searchResults, txnCount: txnCount})
+      }, 5000);
+  }
+
+checkSearch()
+
+})//close this get request
+
 
 app.get('/', (req, res) => {
   if(!req.session.loadCount){

@@ -1,1 +1,33 @@
-<h1>hello world</h2>
+<h1>Txn Search</h1>
+<script>
+let results = [`{{searchResults}}`]
+let resultAmount = {{txnCount}}
+console.log(results)
+let searchResultsArr = searchResults.map((searchResult) => {
+  console.log(searchResult.id)
+})
+
+</script>
+  <p>
+    <table id="txn-table" class="table table">
+      <thead class= "thead-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Status</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Customer ID</th>
+          <th scope="col">Created At/<th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="table-contents">
+         <th></th>
+         <td></td>
+         <td></td>
+         <td></td>
+        <td>
+        </tr>`
+      </tbody>
+    </table>
+  </p>
