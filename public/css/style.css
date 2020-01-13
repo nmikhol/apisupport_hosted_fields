@@ -1,0 +1,11 @@
+body {
+  font-family: "verdana";
+}
+
+#store-title {
+  font-weight: bold;
+}
+
+h3 {
+  padding-top: 10px;
+}
