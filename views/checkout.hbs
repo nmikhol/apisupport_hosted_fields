@@ -3,19 +3,22 @@
 <script>
   let verificationStatus = `{{verificationStatus}}`
   let transactionStatus = `{{transactionStatus}}`
-  if(verificationStatus !== ''){
-    alert(`Payment Declined, please try another payment method.`)
-    verificationStatus = ''
-  } else if (transactionStatus !== ''){
+  let loadCount = {{loadCount}}
+  console.log(loadCount)
+
+  if(loadCount < 2){
+    if((verificationStatus === "processor_declined") || (verificationStatus === "gateway_rejected")){
       alert(`Payment Declined, please try another payment method.`)
-      transactionStatus = ''
+  } else if ((transactionStatus === "processor_declined") || (transactionStatus === "gateway_rejected")){
+      alert(`Payment Declined, please try another payment method.`)
     }
+  }
 </script>
 
   <form action="/transaction" method="post" id="cc-form" >
     <div class="form-group w-25">
       <label class="control-label" for="Amount">Amount</label>
-      <input type= "number" name="amount" class="form-control" id="amount" placeholder="Amount" required>
+      <input type= "number"  name="amount" class="form-control" id="amount" placeholder="Amount" required>
     </div>
 
     <div class="form-row">

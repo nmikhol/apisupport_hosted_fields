@@ -1,16 +1,14 @@
-<div>
-<h1>Thank you {{customerResponse.customer.firstName}}!</h1>
-<p>
-  Get Excited! Your order will arrive never
+<div id="result-page" style: "display: none">
+  <h1 style="padding-top: 10px">Thank you {{customerResponse.customer.firstName}}!</h1>
+  <p>
+    Get Excited! Your order will arrive soon <br>
+    A confirmation email was (not) sent to {{customerResponse.customer.email}}
   </p>
-<h2> Transaction Details</h2>
-<ul>
-  <li> Transaction Amount: {{transactionResponse.transaction.amount}} </li>
-  <li> Last 4 of Card {{transactionResponse.transaction.creditCard.last4}}
-<ul>
 
+  <h2 style="padding-top: 10px"> Transaction Details</h2>
 
-
-
-
+  <ul class="list-group" >
+    <li class="list-group-item"> Transaction Amount: ${{transactionResponse.transaction.amount}} </li>
+    <li class="list-group-item"> Last 4 of Card: {{transactionResponse.transaction.creditCard.last4}} </li>
+  </ul>
 </div>

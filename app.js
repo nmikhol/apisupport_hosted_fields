@@ -3,6 +3,7 @@ const braintree = require("braintree")
 const path = require('path')
 const exphbs = require('express-handlebars')
 const gateway = require('./btCredentials.js')
+const session = require('express-session')
 
 const PORT = process.env.PORT || 3000
 const app = express()
@@ -13,16 +14,18 @@ app.set('view engine', '.hbs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(session({secret: 'secret-key', resave: false, saveUninitialized: false}));
 
 app.listen(PORT, () => console.log(`App is up and running listening on port ${PORT}`))
 
-/*app.get('/', (req, res) => {
-    res.render('configure')
-  })*/
-
 app.get('/', (req, res) => {
+  if(!req.session.loadCount){
+    req.session.loadCount = 1
+  } else {
+    req.session.loadCount += 1
+  }
   gateway.clientToken.generate({},(err, response) => {
-    res.render('checkout', {clientToken: response.clientToken, verificationStatus: app.locals.verificationStatus, transactionStatus: app.locals.transactionStatus})
+    res.render('checkout', {clientToken: response.clientToken, verificationStatus: app.locals.verificationStatus, transactionStatus: app.locals.transactionStatus, loadCount:  req.session.loadCount })
   })
 })
 
@@ -62,19 +65,26 @@ app.post('/transaction', (req, res, next) => {
               if (result.success) {
                 res.render('results', {transactionResponse: result, customerResponse: customerResponse});
 
-              } else if (result.success === false && (result.errors = {})) {//if transaction is declined, redirects back to /checkout
-                console.log(`declined case" ${result.transaction.status}`)
+              } else if ((result.success === false) && (result.errors == {})) {//if transaction is declined, redirects back to /checkout
+                console.log(`else if validation for txn: ${result.success}`)
+                req.session.loadCount = 0
                 app.locals.transactionStatus = result.transaction.status
                 res.redirect('/')
 
               } else { //if transaction.sale fails, log errors
-                  transactionErrors = result.errors.deepErrors();
-                  console.log(`transactionErrors: ${transactionErrors}`)
+                  transactionErrorsArr = result.errors.deepErrors();
+                  transactionErrors = transactionErrorsArr.map((transactionError) =>{
+                    console.log(`${transactionError.attribute}
+                        ${transactionError.code}
+                        ${transactionError.message}`)
+
+                  });
                   res.redirect('/')
                 }
               });
         } else if(result.success === false && (result.errors = {})) { //if veririfation is declined, redirects back to checkout
           app.locals.verificationStatus = result.verification.status
+          req.session.loadCount = 0
           res.redirect(`/`)
           console.log(result.verification.status)
 
