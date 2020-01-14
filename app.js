@@ -61,7 +61,7 @@ app.get('/', (req, res) => {
     loadCount:  req.session.loadCount
     })
   })
-})
+})//close this get for clientToken
 
 app.post('/transaction', (req, res, next) => {
   let paymentNonce = req.body.payment_method_nonce
