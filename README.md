@@ -26,7 +26,7 @@ npm install
 ```
 npm start
 ```
-###Navigating the Application
+### Navigating the Application
 
 Once the application is launched you will be brought to a page where the Hosted Fields integration will be displayed.
 
@@ -35,7 +35,7 @@ Use the navigation bar to head to both parts of the integration.
 `Create Transactions` will bring you back to the Hosted Fields checkout page
 `Transaction Search` will display the last 3 months of transactions for the connected sandbox account
 
-###Testing
+### Testing
 
 Use the following test cards and amounts to generate different responses from the Hosted Fields integration.
 
