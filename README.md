@@ -32,7 +32,7 @@ Once the application is launched you will be brought to a page where the Hosted 
 
 Use the navigation bar to head to both parts of the integration.
 
-`Create Transactions` will bring you back to the Hosted Fields checkout page
+`Create Transactions` will bring you back to the Hosted Fields checkout page while
 
 `Transaction Search` will display the last 3 months of transactions for the connected sandbox account
 
@@ -46,7 +46,8 @@ Use the following test cards and amounts to generate different responses from th
   Card Number to test card verification decline: 4000111111111115
 ```
 2. Test values
-``` Transaction Processor Decline: $2046
+```
+Transaction Processor Decline: $2046
 ```
 
 Visit [Braintree's Developer Documentation](https://developers.braintreepayments.com/reference/general/testing/node) for more test cases.
