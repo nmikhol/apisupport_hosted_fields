@@ -32,7 +32,7 @@ Once the application is launched you will be brought to a page where the Hosted 
 
 Use the navigation bar to head to both parts of the integration.
 
-`Create Transactions` will bring you back to the Hosted Fields checkout page while
+`Create Transactions` will bring you back to the Hosted Fields checkout page
 
 `Transaction Search` will display the last 3 months of transactions for the connected sandbox account
 
