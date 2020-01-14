@@ -20,7 +20,7 @@
 
 <footer class="footer">
   <div class="container">
-    <span id="footer-content" class="text-muted">Displaying {{txnCount}} Results between</span>
+    <span id="footer-content" class="text-muted">Displaying {{txnCount}} results between</span>
   </div>
 </footer>
 <script>
@@ -56,7 +56,7 @@ txnsIds.forEach((element,index) =>{
      `<tr id="table-contents">
       <th>${actualPlace}</th>
       <td>${element}</td>
-      <td>${amounts[index-1]}</td>
+      <td>$${amounts[index-1]}</td>
       <td>${statuses[index-1]}</td>
       <td>${firstNames[index-1]} ${lastNames[index-1]}</td>
       <td>${customerIds[index-1]}</td>
