@@ -23,7 +23,7 @@ app.get('/search', (req, res) =>{
   let dateRange = new Date();
   let txnCount = 0
   let searchResults = []
-  dateRange.setDate(today.getDate() - 90); //setting Date Range
+  dateRange.setDate(today.getDate()- 90); //setting Date Range
 
   gateway.transaction.search(function (search) {//start search request
     search.createdAt().min(dateRange);
@@ -42,7 +42,7 @@ app.get('/search', (req, res) =>{
         return 0;
       })
       res.render('search', {searchResults: searchResults, txnCount: txnCount})
-    }, 4000);//waiting for the search to complete before querying the array
+    }, 5000);//waiting for the search to complete before querying the array
   }
   checkSearch()
 })//close this GET request
