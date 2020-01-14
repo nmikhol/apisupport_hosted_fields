@@ -4,7 +4,7 @@ This application was built using Braintree's Node.js SDK
 
 ### Prerequisites
 
-Please make sure you have node installed on your machine
+Please make sure you have node installed on your machine. Use `node -v` in terminal to see if it is installed.
 
 ```
 Node installation: https://nodejs.org/en/download/
@@ -19,14 +19,14 @@ After node has been installed, please use the following steps to run the applica
 npm install
 ```
 
-2. Create a new file called `.env` into the project folder. Copy the contents of `credentialsInput.env` in your new `.env` file. Fill the `.env` file with your Braintree sandbox credentials.
+2. Create a new file called `.env` into the project folder. Copy the contents of `credentialsInput.env` into your new `.env` file. Fill the `.env` file with your Braintree sandbox credentials.
 
 3. To start the application, make sure you are in the project folder and run the following command in terminal
 
 ```
 npm start
 ```
-4. Visit `localhost:3000` to view the application
+4. Visit `localhost:3000` in your browser to view the application
 
 ### Navigating the Application
 

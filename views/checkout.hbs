@@ -18,7 +18,7 @@
 <form action="/transaction" method="post" id="cc-form" >
   <div class="form-group w-25">
     <label class="control-label" for="Amount">Amount</label>
-    <input type= "number" step=".01" name="amount" class="form-control" id="amount" placeholder="Amount" required>
+    <input type= "number" min="0" step=".01" name="amount" class="form-control" id="amount" placeholder="Amount" required>
   </div>
 
   <div class="form-row">
@@ -121,7 +121,7 @@
         hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
           if (tokenizeErr) {
             console.error(tokenizeErr);
-            alert(tokenizeErr)
+            alert(tokenizeErr.code)
           } else
               hiddenNonceInput.value = payload.nonce;
              console.log('Got a nonce: ' + payload.nonce);
