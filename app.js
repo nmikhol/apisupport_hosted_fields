@@ -20,42 +20,46 @@ app.listen(PORT, () => console.log(`App is up and running listening on port ${PO
 
 app.get('/search', (req, res) =>{
   let today = new Date();
-  let yesterday = new Date();
+  let dateRange = new Date();
   let txnCount = 0
   let searchResults = []
-  yesterday.setDate(today.getDate() - 1);
+  dateRange.setDate(today.getDate() - 90); //setting Date Range
 
-  gateway.transaction.search(function (search) {
-    search.createdAt().min(yesterday);
-
+  gateway.transaction.search(function (search) {//start search request
+    search.createdAt().min(dateRange);
   }, function (err, response) {
-    response.each(function (err, transaction) {
-    searchResults.push(transaction)
-    txnCount ++
-    //console.log(`searching`)
+      response.each(function (err, transaction) {
+        searchResults.push(transaction)
+        txnCount ++
     })
-  })
+  })//close transaction.search()
 
   function checkSearch() {
-      setTimeout(function () {
-        console.log(searchResults)
-        res.render('search', {searchResults: searchResults, txnCount: txnCount})
-      }, 5000);
+    setTimeout(function () {
+      searchResults.sort(function(a,b){
+        if (a.createdAt < b.createdAt) return 1;
+        if (a.createdAt > b.createdAt) return -1;
+        return 0;
+      })
+      res.render('search', {searchResults: searchResults, txnCount: txnCount})
+    }, 4000);//waiting for the search to complete before querying the array
   }
-
-checkSearch()
-
-})//close this get request
-
+  checkSearch()
+})//close this GET request
 
 app.get('/', (req, res) => {
-  if(!req.session.loadCount){
+  if(!req.session.loadCount){ //see how many times user visited the checkout page
     req.session.loadCount = 1
   } else {
     req.session.loadCount += 1
   }
   gateway.clientToken.generate({},(err, response) => {
-    res.render('checkout', {clientToken: response.clientToken, verificationStatus: app.locals.verificationStatus, transactionStatus: app.locals.transactionStatus, loadCount:  req.session.loadCount })
+    res.render('checkout', {
+    clientToken: response.clientToken,
+    verificationStatus: app.locals.verificationStatus,
+    transactionStatus: app.locals.transactionStatus,
+    loadCount:  req.session.loadCount
+    })
   })
 })
 
@@ -92,7 +96,7 @@ app.post('/transaction', (req, res, next) => {
           options: {
             submitForSettlement: true
             }
-          }, function(error, result) { //if transaction is successfull, show results
+          }, function(error, result) { //if transaction is successfull, show /results
               if (result.success) {
                 res.render('results', {transactionResponse: result, customerResponse: customerResponse});
 

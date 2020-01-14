@@ -1,33 +1,67 @@
-<h1>Txn Search</h1>
-<script>
-let results = [`{{searchResults}}`]
-let resultAmount = {{txnCount}}
-console.log(results)
-let searchResultsArr = searchResults.map((searchResult) => {
-  console.log(searchResult.id)
-})
-
-</script>
+<h1>Transaction Search</h1>
   <p>
-    <table id="txn-table" class="table table">
+    <table id="txn-table" class="table">
       <thead class= "thead-light">
         <tr>
+          <th scope="col">#</th>
           <th scope="col">ID</th>
           <th scope="col">Amount</th>
           <th scope="col">Status</th>
           <th scope="col">Customer Name</th>
           <th scope="col">Customer ID</th>
-          <th scope="col">Created At/<th>
+          <th scope="col">Created At<th>
         </tr>
       </thead>
       <tbody>
-        <tr id="table-contents">
-         <th></th>
-         <td></td>
-         <td></td>
-         <td></td>
-        <td>
-        </tr>`
+
       </tbody>
     </table>
   </p>
+
+<footer class="footer">
+  <div class="container">
+    <span id="footer-content" class="text-muted">Displaying {{txnCount}} Results between</span>
+  </div>
+</footer>
+<script>
+
+const resultAmount = {{txnCount}}
+const txnsIds =[{{#each searchResults}}'{{this.id}}', {{/each}}]
+const amounts = [{{#each searchResults}}'{{this.amount}}', {{/each}}]
+const statuses = [{{#each searchResults}}'{{this.status}}', {{/each}}]
+const firstNames = [{{#each searchResults}}'{{this.customer.firstName}}', {{/each}}]
+const lastNames = [{{#each searchResults}}'{{this.customer.lastName}}', {{/each}}]
+const customerIds = [{{#each searchResults}}'{{this.customer.id}}', {{/each}}]
+const creationDates = [{{#each searchResults}}'{{this.createdAt}}', {{/each}}]
+
+//Create date range to display
+const today = new Date()
+const range = new Date()
+range.setDate(today.getDate() - 90);
+let todayStr = today.toString()
+let rangeStr = range.toString()
+
+$('#footer-content').append(` ${todayStr.substring(0,15)} - ${rangeStr.substring(0,15)}`)
+
+//convert ISO dates to YYYY-MM-DD
+const parsedDate = creationDates.map((creationDate) => {
+  new Date(creationDate);
+  return creationDate.substring(0, 10);
+})
+
+txnsIds.forEach((element,index) =>{
+  actualPlace = index +=1
+  $('#txn-table > tbody:last-child')
+    .append(
+     `<tr id="table-contents">
+      <th>${actualPlace}</th>
+      <td>${element}</td>
+      <td>${amounts[index-1]}</td>
+      <td>${statuses[index-1]}</td>
+      <td>${firstNames[index-1]} ${lastNames[index-1]}</td>
+      <td>${customerIds[index-1]}</td>
+      <td>${parsedDate[index-1]}</td>
+     </tr>`
+    )
+  })
+</script>
