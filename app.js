@@ -125,7 +125,6 @@ app.post('/transaction', (req, res, next) => {
           } else { //if customer.create() fails, displays errors
               customerErrors = customerErrorsArr.map((customerError) =>{
               console.log(`${customerError.attribute} ${customerError.code} ${customerError.message}`)
-              req.session.loadCount = 0
               res.status(500).send(customerErrorsArr)
               });
           }
