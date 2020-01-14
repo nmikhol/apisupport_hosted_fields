@@ -100,28 +100,35 @@ app.post('/transaction', (req, res, next) => {
               if (result.success) {
                 res.render('results', {transactionResponse: result, customerResponse: customerResponse});
 
-              } else if (result.success === false && (result.errors = {})) {//if transaction is declined, redirects back to /checkout
-                  req.session.loadCount = 0
-                  app.locals.transactionStatus = result.transaction.status
-                  res.redirect('/')
-              } else { //if transaction.sale fails, log errors
+              } else if(result.success === false) {
                   transactionErrorsArr = result.errors.deepErrors();
-                  transactionErrors = transactionErrorsArr.map((transactionError) =>{
-                  console.log(`${transactionError.attribute} ${transactionError.code} ${transactionError.message}`)
-                  });
-                  res.redirect('/')
+
+                  if(transactionErrorsArr.length <= 0) {//if transaction is declined, redirects back to checkout
+                    app.locals.transactionStatus = result.transaction.status
+                    req.session.loadCount = 0
+                    res.redirect(`/`)
+                  } else { //if txn.sale() fails, displays errors
+                      transactionErrors = transactionErrorsArr.map((transactionError) =>{
+                      console.log(`${transactionError.attribute} ${transactionError.code} ${transactionError.message}`)
+                      res.status(500).send(transactionErrorsArr)
+                      });
+                  }
               }
-          });
-        } else if(result.success === false && (result.errors = {})) { //if verification is declined, redirects back to checkout
+            });//end of txn handling
+      } else if(result.success === false) {
+          customerErrorsArr = result.errors.deepErrors();
+
+          if(customerErrorsArr.length <= 0) {//if verification is declined, redirects back to checkout
             app.locals.verificationStatus = result.verification.status
             req.session.loadCount = 0
             res.redirect(`/`)
-        } else { //if customer.create() fails, displays errors
-            customerErrorsArr = result.errors.deepErrors();
-            customerErrors = customerErrorsArr.map((customerError) =>{
-            console.log(`${customerError.attribute} ${customerError.code} ${customerError.message}`)
-            });
-            res.redirect('/')
+          } else { //if customer.create() fails, displays errors
+              customerErrors = customerErrorsArr.map((customerError) =>{
+              console.log(`${customerError.attribute} ${customerError.code} ${customerError.message}`)
+              req.session.loadCount = 0
+              res.status(500).send(customerErrorsArr)
+              });
           }
-    });
-  });
+        }
+    }); //end customer.create handling
+}); //end POST request

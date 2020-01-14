@@ -19,7 +19,7 @@ After node has been installed, please use the following steps to run the applica
 npm install
 ```
 
-2. Created a new file called `.env` in the project folder. Copy the contents of `credentialsInput.env` in your new `.env` file. Fill the `.env` file with your Braintree sandbox credentials.
+2. Create a new file called `.env` into the project folder. Copy the contents of `credentialsInput.env` in your new `.env` file. Fill the `.env` file with your Braintree sandbox credentials.
 
 3. To start the application, make sure you are in the project folder and run the following command in terminal
 
