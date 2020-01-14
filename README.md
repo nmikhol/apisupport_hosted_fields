@@ -13,7 +13,7 @@ Node installation: https://nodejs.org/en/download/
 ### Installing
 After node has been installed, please use the following steps to run the application.
 
-1. Install the required packages in terminal
+1. Navigate to the project folder in terminal and install the required packages using the following command
 
 ```
 npm install
@@ -21,11 +21,13 @@ npm install
 
 2. Created a new file called `.env` in the project folder. Copy the contents of `credentialsInput.env` in your new `.env` file. Fill the `.env` file with your Braintree sandbox credentials.
 
-3. To start the application, navigate to the project folder and run the following command in terminal
+3. To start the application, make sure you are in the project folder and run the following command in terminal
 
 ```
 npm start
 ```
+4. Visit `localhost:3000` to view the application
+
 ### Navigating the Application
 
 Once the application is launched you will be brought to a page where the Hosted Fields integration will be displayed.
